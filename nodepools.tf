@@ -7,7 +7,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "extra" {
   vm_size               = each.value.vm_size
   node_count            = each.value.node_count
   vnet_subnet_id        = azurerm_subnet.aks_subnet.id
-  enable_auto_scaling   = each.value.enable_autoscale
+  auto_scaling_enabled  = each.value.enable_autoscale
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   mode                  = each.value.mode
@@ -15,18 +15,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "extra" {
   max_pods              = 110
 
   # availability zones expects strings "1","2"...
-  availability_zones = [for z in each.value.availability_zones : tostring(z)]
+  zones = each.value.availability_zones
 
   node_labels = each.value.node_labels
-
-  dynamic "node_taints" {
-    for_each = length(each.value.node_taints) > 0 ? each.value.node_taints : []
-    content {
-      key    = split("=", node_taints.value)[0]
-      value  = split("=", node_taints.value)[1]
-      effect = "NoSchedule"
-    }
-  }
+  node_taints = each.value.node_taints # e.g. ["workload=jobs:NoSchedule"]
 
   tags = {
     created_by = "terraform"

@@ -51,7 +51,7 @@ variable "extra_node_pools" {
   }))
   default = [
     {
-      name               = "np-general"
+      name               = "npgeneral"
       vm_size            = "Standard_DS2_v2"
       node_count         = 2
       min_count          = 1
@@ -64,7 +64,7 @@ variable "extra_node_pools" {
       availability_zones = [1, 2, 3]
     },
     {
-      name               = "np-gpu"
+      name               = "npgpu"
       vm_size            = "Standard_NC6"
       node_count         = 0
       min_count          = 0

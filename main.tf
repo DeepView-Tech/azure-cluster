@@ -9,14 +9,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "${var.prefix}-aks"
 
   default_node_pool {
-    name                = "system" # system node pool (required)
-    node_count          = var.system_node_count
-    vm_size             = var.system_node_size
-    os_type             = "Linux"
-    mode                = "System"
-    vnet_subnet_id      = azurerm_subnet.aks_subnet.id
-    max_pods            = 110
-    enable_auto_scaling = false
+    name       = "system" # system node pool (required)
+    node_count = var.system_node_count
+    vm_size    = var.system_node_size
+    #os_type             = "Linux"
+    #mode                = "System"
+    vnet_subnet_id = azurerm_subnet.aks_subnet.id
+    max_pods       = 110
+    #enable_auto_scaling = false
     # availability_zones = ["1","2","3"] # optional
   }
 
@@ -29,15 +29,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     load_balancer_sku = "standard"
   }
 
-  addon_profile {
-    oms_agent {
-      enabled = false
-    }
-  }
+  #  addon_profile {
+  #    oms_agent {
+  #      enabled = false
+  #    }
+  #  }
 
-  role_based_access_control {
-    enabled = true
-  }
+  #  role_based_access_control {
+  #    enabled = true
+  #  }
 
   tags = {
     environment = "demo"
